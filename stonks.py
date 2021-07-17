@@ -1,11 +1,9 @@
 import json
 import requests
-
+from config import api_key
 
 
 def api_call():
-
-    api_key = "5GrLRCwNWbeZKxsT8cXz"
     ticker_list = ["AAPL", "MSFT", "AMZN", "FB", "GOOG"]
     base_url = "https://www.quandl.com/api/v3/datasets/WIKI/"
     dates = "start_date=2010-10-01&end_date=2019-10-01"
@@ -21,7 +19,7 @@ def api_call():
             stock_dict[ticker_list[holder]] = stock_list
             stock_list = []
         if i < steve:
-            url= base_url + ticker_list[holder] + ".json?" + dates +api
+            url= base_url + ticker_list[holder] + ".json?" + dates + api
             response = requests.get(url).json()
             
             for x in range(0, len(response['dataset']['data'])):
