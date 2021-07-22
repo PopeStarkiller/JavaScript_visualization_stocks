@@ -9,24 +9,23 @@ def api_call():
     dates = "start_date=2010-10-01&end_date=2019-10-01"
     api = "&api_key=" + api_key
 
-    stock_list = []
     stock_dict = {}
-    ticker = ""
-    steve = (len(ticker_list) + 1)
-    for i in range(0,steve):
-        holder = i - 1
-        if i > 0:
-            stock_dict[ticker_list[holder]] = stock_list
-            stock_list = []
-        if i < steve:
-            url= base_url + ticker_list[holder] + ".json?" + dates + api
-            response = requests.get(url).json()
-            
-            for x in range(0, len(response['dataset']['data'])):
-                temp_dict = {}
-                temp_dict[response['dataset']['column_names'][0]] = response['dataset']['data'][x][0]
-                temp_dict[response['dataset']['column_names'][4]] = response['dataset']['data'][x][4]
-                temp_dict[response['dataset']['column_names'][5]] = response['dataset']['data'][x][5]
-                stock_list.append(temp_dict)
+    for i in ticker_list:
+        stock_dict[i] = []
+        url= base_url + i + ".json?" + dates +api
+        response = requests.get(url).json()
+        y = len(response['dataset']['data'])
+        for x in range(0, y):
+            temp_dict = {}
+            counter = 0
+            name_holder = response['dataset']['name']
+            name = name_holder.split()
+            temp_dict['name'] = name[0]
+            temp_dict['ticker'] = response['dataset']['dataset_code']
+            for z in (response['dataset']['column_names']):
+                temp_dict[z] = response['dataset']['data'][x][counter]
+                counter = counter + 1
+            stock_dict[i].append(temp_dict)
+    
 
     return stock_dict
