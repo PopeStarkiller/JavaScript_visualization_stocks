@@ -16,46 +16,97 @@ function init() {
 
 //function to plot the chart
 function buildLineBar(stock) {
-  var apiKey = "cFwz-P45-QWqaBnWx8s9";
+  //var apiKey = "cFwz-P45-QWqaBnWx8s9";
 
-  var url = `https://www.quandl.com/api/v3/datasets/WIKI/${stock}.json?start_date=2016-10-01&end_date=2017-10-01&api_key=${apiKey}`;
+  //var url = `https://www.quandl.com/api/v3/datasets/WIKI/${stock}.json?start_date=2016-10-01&end_date=2017-10-01&api_key=${apiKey}`;
 
-  //d3.json("http://127.0.0.1:5000/data").then(function(data)   {
+  d3.json("http://127.0.0.1:5000/data").then(function(data)   {
     //console.log("data all =",data);
     //console.log("AAPL =",data.AAPL);
-    //console.log("stock =",data.startStock);
+    //console.log("AMZN =",data.AMZN);
     //console.log("AAPL 0=",data.AAPL[0].Date);
     //console.log("AAPL 1=",data.AAPL[1].Date);
     
     //var stocks = Object.keys(data);
     //console.log("stocks=",stocks);
+var volumeData = [];
+var closeData = [];
+var dateData = [];
 
-    d3.json(url).then(function(data) {
+
+    var dropdownMenu = d3.select("#stockChoice");
+    // Assign the value of the dropdown menu option to a variable
+    var dataset = dropdownMenu.property("value");
+
+    var filterData = data[dataset];
+    console.log(filterData);
+    
+    var data2 = Object.entries(filterData)
+    data2.forEach(function([key, value]) {
+      //console.log(data2[key][1]["Date"]);
+
+      dateData.push(data2[key][1]["Date"]);
+      closeData.push(data2[key][1]["Adj. Close"]);
+      volumeData.push(data2[key][1]["Volume"]);
+
+
+    });
+
+    var index = volumeData.length - 1;
+    console.log(index);
+
+    startDate = dateData[index];
+    endDate = dateData[0];
+
+
+    // console.log(dateData);
+    // console.log(closeData);
+    // console.log(volumeData);
+
+
+    // keys.pop()
+    // keys.forEach(function([key, value]) {
+    //   var data2 = Object.entries(data[key]);
+    //   data2.forEach(function([key, value]) {
+    //     console.log(data2[key][1]["Date"]);
+
+
+        
+
+
+
+    // })
+
+
+
+//})
+
+    
+
+    //d3.json(url).then(function(data) {
 
     // Grab values from the response json object to build the plots
     // var name = data.dataset.name;
-    var stock = data.dataset.dataset_code;
-    var startDate = data.dataset.start_date;
-    var endDate = data.dataset.end_date;
-    console.log(startDate);
-    console.log(endDate);
+    // var stock = data.dataset.dataset_code;
+    // var startDate = data.dataset.start_date;
+    // var endDate = data.dataset.end_date;
     // Print the names of the columns
-    console.log(data.dataset.column_names);
+    //console.log(data.dataset.column_names);
     // Print the data for each day
-    console.log(data.dataset.data);
-    var dates = data.dataset.data.map(row => row[0]);
+    //console.log(data.dataset.data);
+    //var dates = data.dataset.data.map(row => row[0]);
     // console.log(dates);
-    var closingPrices = data.dataset.data.map(row => row[4]);
+    //var closingPrices = data.dataset.data.map(row => row[4]);
     // console.log(closingPrices);
-    var volume = data.dataset.data.map(row => row[5]);
+    //var volume = data.dataset.data.map(row => row[5]);
     // console.log(volume);
 
     var trace1 = {
       type: "scatter",
       mode: "lines",
       name: stock,
-      x: dates,
-      y: closingPrices,
+      x: dateData,
+      y: closeData,
       yaxis: 'y2',
       line: {
         color: "DarkBlue"
@@ -65,8 +116,8 @@ function buildLineBar(stock) {
     var trace2 = {
       type: "bar",
       name: stock,
-      x: dates,
-      y: volume,
+      x: dateData,
+      y: volumeData,
       marker: {
         color: "CornflowerBlue"
       }
@@ -75,7 +126,7 @@ function buildLineBar(stock) {
     var data = [trace1, trace2];
 
     var layout = {
-      title: `${stock} Stock Price / Volume`,
+      title: `${dataset} Stock Price / Volume`,
       //width: 1000,
       showlegend: false,
       xaxis: {
