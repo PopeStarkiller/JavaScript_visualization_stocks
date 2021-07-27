@@ -144,7 +144,8 @@ function init() {
       tableData[i] = data[stockTicker[i]];
     }
 
-    
+    //console.log("tableData=",tableData);
+
     // table search
 
     table1 = tableData[0];
@@ -235,7 +236,9 @@ function runEnter() {
    for (j = 0; j < tableData.length; j++){ 
     var recordBeginDate = tableData[j].filter(stock => stock.Date === inputBeginDateValue);
     var recordEndDate = tableData[j].filter(stock => stock.Date === inputEndDateValue);
-    
+    //console.log(recordBeginDate);
+    //console.log(recordEndDate);
+
     var change2 = 0.00;
     var perChg2 = 0.00;
 
@@ -250,9 +253,9 @@ function runEnter() {
         
       }
       else {
-        change = (recordEndDate[0].Close - recordBeginDate[0].Close);
+        change = (recordEndDate[0]["Adj. Close"] - recordBeginDate[0]["Adj. Close"]);
         change2= change.toFixed(2);
-        perChg = ((recordEndDate[0].Close - recordBeginDate[0].Close) / recordBeginDate[0].Close)*100;
+        perChg = ((recordEndDate[0]["Adj. Close"] - recordBeginDate[0]["Adj. Close"]) / recordBeginDate[0]["Adj. Close"])*100;
         perChg2= perChg.toFixed(2);
       }
     percentChangeBar[j] = perChg2;
@@ -261,14 +264,14 @@ function runEnter() {
     tableDataNew[j].Name = stockName[j];
         
     if (recordBeginDate.length !== 0) {
-      tableDataNew[j].Begin_Price = recordBeginDate[0].Close;
+      tableDataNew[j].Begin_Price = recordBeginDate[0]["Adj. Close"].toFixed(2);
     }
     else {
       tableDataNew[j].Begin_Price = "--";
     }
 
     if (recordEndDate.length !== 0) {
-      tableDataNew[j].End_Price = recordEndDate[0].Close;
+      tableDataNew[j].End_Price = recordEndDate[0]["Adj. Close"].toFixed(2);
     }
     else {
       tableDataNew[j].End_Price = "--";
@@ -310,8 +313,8 @@ function runEnter() {
     ]
   });
 
-  console.log("stockTicker", stockTicker);
-  console.log("percentChangeBar=",percentChangeBar);
+  //console.log("stockTicker", stockTicker);
+  //console.log("percentChangeBar=",percentChangeBar);
 
   var trace1 = {
     x: stockTicker,
@@ -322,12 +325,12 @@ function runEnter() {
   var data = [trace1];
  
   var layout = {
-    title: "'Bar' Chart",
+    title: "Percent Change",
     xaxix: {title: "Stocks"},
     yaxis: {title: " % of Change"},
   };
  
-  Plotly.newPlot("plot", data, layout);
+  Plotly.newPlot("plot", data, layout, {responsive: true});
 }
   
 
