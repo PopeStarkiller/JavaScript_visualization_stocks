@@ -1,11 +1,4 @@
 
-//d3.json("http://127.0.0.1:5000/data").then(function(data, err)   {
-//console.log("data all =",data);
-//console.log(data)
-//console.log(data.AAPL)
-//console.log(data.AAPL[0].Date)
-
-//})
 
 // function to display the initial chart before user uses dropdown list
 function init() {
@@ -16,19 +9,8 @@ function init() {
 
 //function to plot the chart
 function buildLineBar(stock) {
-  //var apiKey = "cFwz-P45-QWqaBnWx8s9";
-
-  //var url = `https://www.quandl.com/api/v3/datasets/WIKI/${stock}.json?start_date=2016-10-01&end_date=2017-10-01&api_key=${apiKey}`;
-
   d3.json("http://127.0.0.1:5000/data").then(function(data)   {
-    //console.log("data all =",data);
-    //console.log("AAPL =",data.AAPL);
-    //console.log("AMZN =",data.AMZN);
-    //console.log("AAPL 0=",data.AAPL[0].Date);
-    //console.log("AAPL 1=",data.AAPL[1].Date);
-    
-    //var stocks = Object.keys(data);
-    //console.log("stocks=",stocks);
+
 var volumeData = [];
 var closeData = [];
 var dateData = [];
@@ -57,49 +39,6 @@ var dateData = [];
 
     startDate = dateData[index];
     endDate = dateData[0];
-
-
-    // console.log(dateData);
-    // console.log(closeData);
-    // console.log(volumeData);
-
-
-    // keys.pop()
-    // keys.forEach(function([key, value]) {
-    //   var data2 = Object.entries(data[key]);
-    //   data2.forEach(function([key, value]) {
-    //     console.log(data2[key][1]["Date"]);
-
-
-        
-
-
-
-    // })
-
-
-
-//})
-
-    
-
-    //d3.json(url).then(function(data) {
-
-    // Grab values from the response json object to build the plots
-    // var name = data.dataset.name;
-    // var stock = data.dataset.dataset_code;
-    // var startDate = data.dataset.start_date;
-    // var endDate = data.dataset.end_date;
-    // Print the names of the columns
-    //console.log(data.dataset.column_names);
-    // Print the data for each day
-    //console.log(data.dataset.data);
-    //var dates = data.dataset.data.map(row => row[0]);
-    // console.log(dates);
-    //var closingPrices = data.dataset.data.map(row => row[4]);
-    // console.log(closingPrices);
-    //var volume = data.dataset.data.map(row => row[5]);
-    // console.log(volume);
 
     var trace1 = {
       type: "scatter",
@@ -161,13 +100,4 @@ function updatePlotly() {
 }
 
 init();
-
-
-/** code to try for the dropdown instead
-var keys = Object.entries(data)
-keys.pop()
-keys.forEach(function([key, value]) {
-    d3.select("#stockChoice").append("option").attr("key",key).text(data[key][0].name);
-})
-*/
 
