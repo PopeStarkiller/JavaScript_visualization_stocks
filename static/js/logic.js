@@ -268,7 +268,7 @@ function runEnter() {
     }
 
     if (recordEndDate.length !== 0) {
-      tableDataNew[j].End_Price = recordEndDate[0]['Adj. Close'];
+      tableDataNew[j].End_Price = recordEndDate[0]['Adj. Close'].toFixed(2);
     }
     else {
       tableDataNew[j].End_Price = "--";
